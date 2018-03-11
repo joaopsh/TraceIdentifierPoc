@@ -32,6 +32,7 @@ namespace TraceIdentifierPoc.Service
             var random = new Random();
             var delay = random.Next(3000, 10000);
 
+            //_logger.LogInformation($"{_httpContextAccessor.HttpContext.TraceIdentifier}:{myref} Random delay: {delay}ms");
             _logger.LogInformation($"{_traceIdentifierService.Get()}:{myref} Random delay: {delay}ms");
 
             var stopWatch = Stopwatch.StartNew();
@@ -40,6 +41,7 @@ namespace TraceIdentifierPoc.Service
             Task.Delay(delay).Wait();
             stopWatch.Stop();
 
+            //_logger.LogInformation($"{_httpContextAccessor.HttpContext.TraceIdentifier}:{myref} Finished delay in {stopWatch.Elapsed.TotalMilliseconds}ms");
             _logger.LogInformation($"{_traceIdentifierService.Get()}:{myref} Finished delay in {stopWatch.Elapsed.TotalMilliseconds}ms");
         }
     }

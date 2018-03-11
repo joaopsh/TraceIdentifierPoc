@@ -21,7 +21,17 @@ namespace TraceIdentifierPoc
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<ISomeService, SomeService>();
-            services.AddScoped<ITraceIdentifierService, TraceIdentifierService>();
+
+            services.AddScoped<ITraceIdentifierService>(serviceProvider =>
+            {
+                return new TraceIdentifierService(
+                    serviceProvider,
+                    (srv) => 
+                    {
+                        return srv.GetService<IHttpContextAccessor>()?.HttpContext?.TraceIdentifier;
+                    });
+            });
+
             services.AddMvc();
         }
 

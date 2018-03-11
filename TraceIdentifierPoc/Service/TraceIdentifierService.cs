@@ -6,9 +6,9 @@ namespace TraceIdentifierPoc.Service
     {
         private readonly string _traceIdentifier;
 
-        public TraceIdentifierService()
+        public TraceIdentifierService(IServiceProvider serviceProvider, Func<IServiceProvider, string> traceIdentifierResolverFunc)
         {
-            _traceIdentifier = Guid.NewGuid().ToString();
+            _traceIdentifier = traceIdentifierResolverFunc(serviceProvider);
         }
 
         public string Get()

@@ -29,6 +29,7 @@ namespace TraceIdentifierPoc.Controllers
         public IEnumerable<string> Get()
         {
             int myref = new Random().Next(0, 1000);
+            //_logger.LogInformation($"{_httpContextAccessor.HttpContext.TraceIdentifier}:{myref} Starting request...");
             _logger.LogInformation($"{_traceIdentifierService.Get()}:{myref} Starting request...");
 
             var stopWatch = Stopwatch.StartNew();
@@ -37,8 +38,10 @@ namespace TraceIdentifierPoc.Controllers
             _someService.LongRunningAsync(myref);
             stopWatch.Stop();
 
+            //_logger.LogInformation($"{_httpContextAccessor.HttpContext.TraceIdentifier}:{myref} LongRunningAsync finished in {stopWatch.Elapsed.TotalMilliseconds}ms.");
             _logger.LogInformation($"{_traceIdentifierService.Get()}:{myref} LongRunningAsync finished in {stopWatch.Elapsed.TotalMilliseconds}ms.");
 
+            //_logger.LogInformation($"{_httpContextAccessor.HttpContext.TraceIdentifier}:{myref} Finishing request...");
             _logger.LogInformation($"{_traceIdentifierService.Get()}:{myref} Finishing request...");
             return new string[] { "value1", "value2" };
         }
