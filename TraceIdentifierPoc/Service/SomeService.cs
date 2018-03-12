@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TraceIdentifierPoc.Service
 {
@@ -12,11 +13,11 @@ namespace TraceIdentifierPoc.Service
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ITraceIdentifierService _traceIdentifierService;
 
-        public SomeService(ILogger<SomeService> logger, IHttpContextAccessor httpContextAccessor, ITraceIdentifierService traceIdentifierService)
+        public SomeService(ILogger<SomeService> logger, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
-            _traceIdentifierService = traceIdentifierService;
+            _traceIdentifierService = ServiceLocator.ServiceProvider.GetService<ITraceIdentifierService>();
         }
 
         public Task LongRunningAsync(int myref)

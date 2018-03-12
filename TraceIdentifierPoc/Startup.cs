@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using TraceIdentifierPoc.Logger;
 using TraceIdentifierPoc.Service;
 
 namespace TraceIdentifierPoc
@@ -21,7 +23,7 @@ namespace TraceIdentifierPoc
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<ISomeService, SomeService>();
-
+            
             services.AddScoped<ITraceIdentifierService>(serviceProvider =>
             {
                 return new TraceIdentifierService(
@@ -33,11 +35,14 @@ namespace TraceIdentifierPoc
             });
 
             services.AddMvc();
+
+            ServiceLocator.ServiceProvider = services.BuildServiceProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerProvider)
         {
+            loggerProvider.AddProvider(new CustomLoggerProvider());
             app.UseMvc();
         }
     }
