@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.Extensions.Logging;
+using TraceIdentifierPoc.Service;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TraceIdentifierPoc.Logger
 {
@@ -37,16 +38,8 @@ namespace TraceIdentifierPoc.Logger
             // Adds current states.
             scopedStates.AddRange(ParseState(state));
 
-            var stringBuilder = new StringBuilder();
-
-            stringBuilder.AppendLine("------------------");
-            foreach (var scopedState in scopedStates)
-            {
-                stringBuilder.AppendLine($"[Key: {scopedState.Key} - Value: {scopedState.Value}]");
-            }
-            stringBuilder.AppendLine("------------------");
-
-            Console.WriteLine(stringBuilder.ToString());
+            //var traceIdentifier = ServiceLocator.ServiceProvider.GetService<ITraceIdentifierService>().Get();
+            Console.WriteLine($"TraceIdentifier: {LoggerContext.GetTraceIdentifier()}");
         }
 
         public void Dispose()

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using TraceIdentifierPoc.Logger;
+using TraceIdentifierPoc.Middleware;
 using TraceIdentifierPoc.Service;
 
 namespace TraceIdentifierPoc
@@ -43,6 +44,9 @@ namespace TraceIdentifierPoc
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerProvider)
         {
             loggerProvider.AddProvider(new CustomLoggerProvider());
+
+            app.UseMiddleware<LoggerMiddleware>();
+
             app.UseMvc();
         }
     }
